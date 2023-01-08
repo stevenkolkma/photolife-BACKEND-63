@@ -1,10 +1,16 @@
 //packages
 const express = require("express");
 const corsMiddleWare = require("cors");
-import dotenv from "dotenv";
-
+const dotenv = require("dotenv");
+// import dotenv from "dotenv";
+dotenv.config();
 //routers
 const authRouter = require("./routers/auth");
+const marketRouter = require("./routers/photomarket");
+const photoRouter = require("./routers/photo");
+const galleryRouter = require("./routers/gallery");
+const userRouter = require("./routers/user");
+const purchaseRouter = require("./routers/purchase");
 
 //constants
 const { PORT } = require("./config/constants");
@@ -22,6 +28,11 @@ app.use(express.json());
 
 //routes
 app.use("/auth", authRouter);
+app.use("/photomarket", marketRouter);
+app.use("/photos", photoRouter);
+app.use("/gallery", galleryRouter);
+app.use("/user", userRouter);
+app.use("/purchase", purchaseRouter);
 
 //start listening
 app.listen(PORT, () => {
