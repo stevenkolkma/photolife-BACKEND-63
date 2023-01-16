@@ -2,13 +2,14 @@ const bcrypt = require("bcrypt");
 const { Router } = require("express");
 const { toJWT } = require("../auth/jwt");
 const authMiddleware = require("../auth/middleware");
+const Gallery = require("../models").gallery;
+const Photo = require("../models").photo;
 const User = require("../models/").user;
 const { SALT_ROUNDS } = require("../config/constants");
 
 const router = new Router();
 
-
-//login 
+//login
 router.post("/login", async (req, res, next) => {
   try {
     const { email, password } = req.body;
@@ -27,15 +28,21 @@ router.post("/login", async (req, res, next) => {
       });
     }
 
+    //Logging in finds myGalleries
+    const myGalleries = await Gallery.findAll({
+      where: { userId: user.id },
+      include: [Photo],
+    });
     delete user.dataValues["password"]; // don't send back the password hash
     const token = toJWT({ userId: user.id });
-    return res.status(200).send({ token, user: user.dataValues });
+    return res
+      .status(200)
+      .send({ token, user: user.dataValues, myGalleries: myGalleries });
   } catch (error) {
     console.log(error);
     return res.status(400).send({ message: "Something went wrong, sorry" });
   }
 });
-
 
 //signup
 router.post("/signup", async (req, res) => {
@@ -45,17 +52,34 @@ router.post("/signup", async (req, res) => {
   }
 
   try {
+    //Signing up creates a user
     const newUser = await User.create({
       email,
       password: bcrypt.hashSync(password, SALT_ROUNDS),
       name,
     });
 
+    //Create a new gallery on signup
+    const newGallery = await Gallery.create({
+      name: `${name}'s first gallery`,
+      description: null,
+      thumbnail: null,
+      date: new Date(),
+      userId: newUser.id,
+    });
+
+    //Find the new gallery
+    const NewGallery = await Gallery.findByPk(newGallery.id, {
+      include: [Photo],
+    });
+
     delete newUser.dataValues["password"]; // don't send back the password hash
 
     const token = toJWT({ userId: newUser.id });
 
-    res.status(201).json({ token, user: newUser.dataValues });
+    res
+      .status(201)
+      .json({ token, user: newUser.dataValues, myGalleries: NewGallery });
   } catch (error) {
     if (error.name === "SequelizeUniqueConstraintError") {
       return res
@@ -72,8 +96,12 @@ router.post("/signup", async (req, res) => {
 // - checking if a token is (still) valid
 router.get("/me", authMiddleware, async (req, res) => {
   // don't send back the password hash
+  const myGalleries = await Gallery.findAll({
+    where: { userId: req.user.id },
+    include: [Photo],
+  });
   delete req.user.dataValues["password"];
-  res.status(200).send({ ...req.user.dataValues });
+  res.status(200).send({ ...req.user.dataValues, myGalleries: myGalleries });
 });
 
 module.exports = router;

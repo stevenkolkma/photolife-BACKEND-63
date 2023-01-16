@@ -9,6 +9,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       photo.belongsTo(models.gallery, { foreignKey: "galleryId" });
+      photo.belongsTo(models.user, { foreignKey: "userId" });
       photo.belongsToMany(models.user, {
         through: "purchase",
         foreignKey: "photoId",
@@ -17,12 +18,14 @@ module.exports = (sequelize, DataTypes) => {
   }
   photo.init(
     {
-      name: DataTypes.STRING,
-      imageUrl: DataTypes.STRING,
-      caption: DataTypes.STRING,
-      price: DataTypes.INTEGER,
-      dateTaken: DataTypes.DATE,
-      metaData: DataTypes.TEXT,
+      name: { type: DataTypes.STRING, allowNull: false },
+      imageUrl: { type: DataTypes.TEXT },
+      caption: { type: DataTypes.STRING },
+      metaData: {
+        type: DataTypes.TEXT,
+        defaultValue: `Date taken: ${new Date()}`,
+      },
+      publicId: { type: DataTypes.STRING },
     },
     {
       sequelize,

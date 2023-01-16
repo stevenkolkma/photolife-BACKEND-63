@@ -14,9 +14,12 @@ module.exports = (sequelize, DataTypes) => {
   }
   gallery.init(
     {
-      name: DataTypes.STRING,
-      description: DataTypes.STRING,
-      thumbnail: DataTypes.STRING,
+      name: { type: DataTypes.STRING, allowNull: false },
+      description: DataTypes.TEXT,
+      thumbnail: {
+        type: DataTypes.TEXT,
+        defaultValue: "https://image.pngaaa.com/301/2691301-middle.png",
+      },
       date: DataTypes.DATE,
     },
     {

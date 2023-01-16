@@ -7,6 +7,26 @@ const Purchase = require("../models").purchase;
 
 const router = Router();
 
+// GET all users :4000/users
+router.get("/", async (req, res) => {
+  try {
+    const photos = await Gallery.findAll({
+      include: [
+        {
+          model: Photo,
+          as: "photos",
+        },
+        {
+          model: User,
+          as: "users",
+        },
+      ],
+    });
+    res.send(photos);
+  } catch (error) {
+    res.status(500).send();
+  }
+});
 // HTTP GET :4000/user
 router.get("/:id", authMiddleware, async (req, res) => {
   const id = req.user.id;

@@ -8,38 +8,36 @@ module.exports = {
         {
           name: "Picture1",
           imageUrl:
-            "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Image_created_with_a_mobile_phone.png/1200px-Image_created_with_a_mobile_phone.png",
+            "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg",
           caption: "A photo about stuff",
-          price: 15.0,
-          dateTaken: new Date(),
-          metaData:
-            "asd;lkfjadsf;ldsf;ladsflk;joifepie38p9 qp92e8f q2ef98pn q2ef9p p98q 2fewdanf laskdf n 92 feqn",
+          metaData: `Price: 15, DateTaken: ${new Date()}`,
           galleryId: 1,
+          userId: 1,
+          publicId: 1,
           createdAt: new Date(),
           updatedAt: new Date(),
         },
         {
           name: "Picture2",
           imageUrl:
-            "https://media.sproutsocial.com/uploads/2017/02/10x-featured-social-media-image-size.png",
+            "https://st.depositphotos.com/1288351/1322/i/600/depositphotos_13224689-stock-photo-single-tree-space-background.jpg",
           caption: "A photo about stuff",
-          price: 50.0,
-          dateTaken: new Date(),
-          metaData:
-            "asd;lkfjadsf;ldsf;ladsflk;joifepie38p9 qp92e8f q2ef98pn q2ef9p p98q 2fewdanf laskdf n 92 feqn",
+          metaData: `Price: 15, DateTaken: ${new Date()}`,
           galleryId: 2,
+          userId: 2,
+          publicId: 2,
           createdAt: new Date(),
           updatedAt: new Date(),
         },
         {
           name: "Picture3",
           imageUrl:
-            "https://imgv3.fotor.com/images/blog-cover-image/part-blurry-image.jpg",
-          price: 100.0,
-          dateTaken: new Date(),
-          metaData:
-            "asd;lkfjadsf;ldsf;ladsflk;joifepie38p9 qp92e8f q2ef98pn q2ef9p p98q 2fewdanf laskdf n 92 feqn",
+            "https://thumbs.dreamstime.com/b/starry-sky-pink-milky-way-trees-night-landscape-alone-hill-against-colorful-amazing-galaxy-nature-87458498.jpg",
+          caption: " A photo about stuff",
+          metaData: `Price: 15, DateTaken: ${new Date()}`,
           galleryId: 3,
+          userId: 3,
+          publicId: 3,
           createdAt: new Date(),
           updatedAt: new Date(),
         },

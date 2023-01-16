@@ -1,14 +1,12 @@
 //packages
 const express = require("express");
 const corsMiddleWare = require("cors");
-const dotenv = require("dotenv");
-// import dotenv from "dotenv";
-dotenv.config();
+
 //routers
 const authRouter = require("./routers/auth");
-const marketRouter = require("./routers/photomarket");
-const photoRouter = require("./routers/photo");
+const photoRouter = require("./routers/photos");
 const galleryRouter = require("./routers/gallery");
+const marketRouter = require("./routers/photomarket");
 const userRouter = require("./routers/user");
 const purchaseRouter = require("./routers/purchase");
 
@@ -28,10 +26,10 @@ app.use(express.json());
 
 //routes
 app.use("/auth", authRouter);
-app.use("/photomarket", marketRouter);
 app.use("/photos", photoRouter);
-app.use("/gallery", galleryRouter);
-app.use("/user", userRouter);
+app.use("/galleries", galleryRouter);
+app.use("/photomarket", marketRouter);
+app.use("/users", userRouter);
 app.use("/purchase", purchaseRouter);
 
 //start listening
