@@ -22,6 +22,7 @@ module.exports = {
         type: Sequelize.TEXT,
         defaultValue: `Date taken: ${new Date()}`,
       },
+      price: { type: Sequelize.INTEGER, allowNull: false, defaultValue: 0 },
       publicId: {
         type: Sequelize.STRING,
       },

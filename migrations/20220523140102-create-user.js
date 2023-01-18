@@ -28,8 +28,7 @@ module.exports = {
       },
       avatar: {
         type: Sequelize.STRING,
-        defaultValue:
-          "https://e7.pngegg.com/pngimages/84/165/png-clipart-united-states-avatar-organization-information-user-avatar-service-computer-wallpaper-thumbnail.png",
+        defaultValue: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d5/Antu_folder-grey.svg/512px-Antu_folder-grey.svg.png?20160706104142",
       },
       createdAt: {
         allowNull: false,

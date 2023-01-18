@@ -20,6 +20,7 @@ module.exports = (sequelize, DataTypes) => {
     {
       name: { type: DataTypes.STRING, allowNull: false },
       imageUrl: { type: DataTypes.TEXT },
+      price: { type: DataTypes.INTEGER, allowNull: false, defaultValue: 0 },
       caption: { type: DataTypes.STRING },
       metaData: {
         type: DataTypes.TEXT,
