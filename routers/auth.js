@@ -78,7 +78,7 @@ router.post("/signup", async (req, res) => {
 
     res
       .status(201)
-      .json({ token, user: newUser.dataValues, myGalleries: NewGallery });
+      .json({ token, user: newUser.dataValues, myGalleries: [NewGallery] });
   } catch (error) {
     if (error.name === "SequelizeUniqueConstraintError") {
       return res

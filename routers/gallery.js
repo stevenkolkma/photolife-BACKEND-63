@@ -55,13 +55,6 @@ router.get("/:id", async (req, res) => {
       res.status(404).json({ message: "Gallery not found." });
       return;
     }
-    // let public_ids = gallery.photos.map((photo) => photo.publicId);
-    // let cloudinary_data = await cloudinary.api.resources_by_ids(public_ids, {
-    //   metadata: true,
-    //   context: true,
-    //   transformations: true,
-    // });
-    // gallery.cloudinary_data = cloudinary_data.resources;
     res.send(gallery);
   } catch (error) {
     res.status(500).send("error: " + error.message);
@@ -90,57 +83,35 @@ router.post("/", async (req, res) => {
 // PUT an updated gallery
 router.put("/:id", async (req, res) => {
   try {
+    const { name, description, thumbnail, date } = req.body;
     const gallery = await Gallery.findByPk(req.params.id);
     if (!gallery) {
       return res.status(404).json({ message: "No gallery found" });
     }
-
-    let old_folder_name = req.body.folder_id;
-    let new_folder_name = req.body.name;
-    //rename folder in cloudinary
-    await cloudinary.api.rename_folder(old_folder_name, new_folder_name);
-
     // update gallery name
-    await Gallery.update({ name: new_folder_name });
+    await gallery.update({ name, description, thumbnail, date });
 
-    res
-      .status(200)
-      .json({ message: "Folder renamed in cloudinary and updated in the db" });
+    res.status(200).json(gallery);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 });
 
 // DELETE a gallery
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", authMiddleware, async (req, res) => {
   try {
     const gallery = await Gallery.findByPk(req.params.id);
 
     if (!gallery) {
       return res.status(404).send("No gallery found");
     }
-    cloudinary.api.delete(req.params.folder, function (error, result) {
-      if (error) {
-        res.status(500).send(error);
-      } else {
-        res.sendStatus(204);
-      }
-    });
-    await gallery.destroy(); // This also deletes all the photos in the gallery
-    res.send(gallery);
+    if (!gallery === req.user.id) {
+      await gallery.destroy(); // This also deletes all the photos in the gallery
+    }
+    res.status(201).send(gallery);
   } catch (error) {
-    res.status(500).send();
+    res.status(500).send("Error: " + error.message);
   }
 });
-
-// router.post("/:id", authMiddleware, async (req, res) => {
-//   const id = req.user.id;
-//   const { galleryId } = req.body;
-//   try {
-//     const newGallery = await Gallery.findByPk(id);
-//   } catch (e) {
-//     return res.status(500).json({ error: e.message });
-//   }
-// });
 
 module.exports = router;

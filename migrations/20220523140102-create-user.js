@@ -28,7 +28,8 @@ module.exports = {
       },
       avatar: {
         type: Sequelize.STRING,
-        defaultValue: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d5/Antu_folder-grey.svg/512px-Antu_folder-grey.svg.png?20160706104142",
+        defaultValue:
+          "https://thumbs.dreamstime.com/b/default-avatar-profile-icon-grey-photo-placeholder-illustrations-vectors-default-avatar-profile-icon-grey-photo-placeholder-99724602.jpg",
       },
       createdAt: {
         allowNull: false,

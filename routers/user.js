@@ -27,6 +27,7 @@ router.get("/", async (req, res) => {
     res.status(500).send();
   }
 });
+
 // HTTP GET :4000/user
 router.get("/:id", async (req, res) => {
   const { id } = req.params;
