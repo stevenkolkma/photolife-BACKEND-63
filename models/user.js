@@ -10,10 +10,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       user.hasMany(models.gallery, { foreignKey: "userId" });
       user.hasMany(models.photo, { foreignKey: "userId" });
-      user.belongsToMany(models.photo, {
-        through: "purchase",
-        foreignKey: "userId",
-      });
+      user.hasMany(models.order, { foreignKey: "userId" });
     }
   }
   user.init(

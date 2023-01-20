@@ -71,9 +71,7 @@ router.get("/:id", async (req, res) => {
 // POST a new gallery
 router.post("/", async (req, res) => {
   try {
-    const { name, userId, description, thumbnail, date } = req.body;
-
-    const user = await User.findByPk(userId);
+    const { name, description, date, thumbnail, userId } = req.body;
 
     // Create the new gallery in the database
     const gallery = await Gallery.create({
@@ -81,9 +79,9 @@ router.post("/", async (req, res) => {
       description,
       thumbnail,
       date,
-      userId: user.id,
+      userId: userId,
     });
-    res.status(201).send("New gallery was created", gallery);
+    res.status(201).send(gallery);
   } catch (error) {
     res.status(400).send(error.message, error.details, error);
   }

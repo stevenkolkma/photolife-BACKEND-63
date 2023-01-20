@@ -21,7 +21,7 @@ module.exports = {
       thumbnail: {
         type: Sequelize.TEXT,
         defaultValue:
-          "https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/OneDrive_Folder_Icon.svg/512px-OneDrive_Folder_Icon.svg.png?20191217180525",
+          "https://d1nhio0ox7pgb.cloudfront.net/_img/g_collection_png/standard/256x256/folder.png",
       },
       createdAt: {
         allowNull: false,

@@ -18,7 +18,8 @@ module.exports = (sequelize, DataTypes) => {
       description: DataTypes.TEXT,
       thumbnail: {
         type: DataTypes.TEXT,
-        defaultValue: "https://image.pngaaa.com/301/2691301-middle.png",
+        defaultValue:
+          "https://d1nhio0ox7pgb.cloudfront.net/_img/g_collection_png/standard/256x256/folder.png",
       },
       date: DataTypes.DATE,
     },

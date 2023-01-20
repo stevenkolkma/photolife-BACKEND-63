@@ -63,7 +63,6 @@ router.post("/signup", async (req, res) => {
     const newGallery = await Gallery.create({
       name: `${name}'s first gallery`,
       description: null,
-      thumbnail: null,
       date: new Date(),
       userId: newUser.id,
     });

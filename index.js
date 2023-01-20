@@ -8,7 +8,7 @@ const photoRouter = require("./routers/photos");
 const galleryRouter = require("./routers/gallery");
 const marketRouter = require("./routers/photomarket");
 const userRouter = require("./routers/user");
-const purchaseRouter = require("./routers/purchase");
+const orderRouter = require("./routers/order");
 
 //constants
 const { PORT } = require("./config/constants");
@@ -30,7 +30,7 @@ app.use("/photos", photoRouter);
 app.use("/galleries", galleryRouter);
 app.use("/photomarket", marketRouter);
 app.use("/users", userRouter);
-app.use("/purchase", purchaseRouter);
+app.use("/order", orderRouter);
 
 //start listening
 app.listen(PORT, () => {

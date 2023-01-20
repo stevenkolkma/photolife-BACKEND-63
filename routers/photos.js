@@ -5,7 +5,6 @@ const Photo = require("../models").photo;
 const User = require("../models").user;
 const Purchase = require("../models").purchase;
 const cloudinary = require("cloudinary").v2;
-const multer = require("multer");
 
 const router = new Router();
 
@@ -68,8 +67,16 @@ router.get("/:id", async (req, res) => {
 //POST a new photo to the gallery with the userId and imageUrl from cloudinary
 router.post("/", authMiddleware, async (req, res) => {
   try {
-    const { name, caption, metaData, imageUrl, publicId, galleryId, userId } =
-      req.body;
+    const {
+      name,
+      caption,
+      metaData,
+      price,
+      imageUrl,
+      publicId,
+      galleryId,
+      userId,
+    } = req.body;
     const user = await User.findByPk(req.user.id);
 
     if (!name) {
@@ -86,59 +93,56 @@ router.post("/", authMiddleware, async (req, res) => {
       caption,
       metaData,
       imageUrl,
+      price,
       publicId,
       galleryId,
       userId,
     });
     console.log(photo);
 
-    return res.status(201).send({ message: "New photo created", photo });
+    return res.status(201).json(photo);
   } catch (e) {
     console.log(e);
   }
 });
 
 // PUT an updated photo
-router.put("/photos/:id", async (req, res) => {
+router.put("/:id", async (req, res) => {
   try {
+    const { name, caption, metaData, price } = req.body;
     // Find the existing photo
     const photo = await Photo.findByPk(req.params.id);
     if (!photo) {
       return res.status(404).send("No photo found");
     }
-    // If the user has provided a new image file, upload it to Cloudinary
-    if (req.file) {
-      // Delete the old image from Cloudinary
-      await cloudinary.uploader.destroy(photo.publicId);
-      // Upload the new image
-      const result = await cloudinary.uploader.upload(req.file.buffer, {
-        folder: "my-app/photos",
-      });
-      // Update the imageUrl field of the photo model
-      photo.imageUrl = result.secure_url;
-    }
-    // Update the other fields of the photo model
-    Object.assign(photo, req.body);
-    await photo.save();
-    res.send(photo);
+    console.log(photo);
+    await photo.update({ name, caption, metaData, price });
+    res.status(200).send(photo);
   } catch (error) {
     res.status(400).send(error);
   }
 });
 
 // DELETE a photo
-router.delete("/photos/:id", async (req, res) => {
+router.delete("/:id", authMiddleware, async (req, res) => {
   try {
     // Find the existing photo
+
     const photo = await Photo.findByPk(req.params.id);
+    console.log(photo);
     if (!photo) {
       return res.status(404).send("No photo with that matching id found");
     }
-    // Delete the image from Cloudinary
-    await cloudinary.uploader.destroy(photo.publicId);
-    // Delete the photo from the database
-    await photo.destroy();
-    res.send(photo);
+    if (req.user.id !== photo.userId) {
+      res.status(400).send("You are not authorized to delete this photo");
+    }
+    if (req.user.id === photo.userId) {
+      // Delete the photo from the database
+      await photo.destroy();
+      // Delete the image from Cloudinary
+      await cloudinary.uploader.destroy(photo.publicId);
+      res.status(201).json(photo);
+    }
   } catch (error) {
     res.status(500).send();
   }

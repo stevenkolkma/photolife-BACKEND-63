@@ -10,36 +10,37 @@ const router = Router();
 // GET all users :4000/users
 router.get("/", async (req, res) => {
   try {
-    const photos = await Gallery.findAll({
+    const users = await User.findAll({
       include: [
         {
           model: Photo,
           as: "photos",
         },
         {
-          model: User,
-          as: "users",
+          model: Gallery,
+          as: "galleries",
         },
       ],
     });
-    res.send(photos);
+    res.status(200).json(users);
   } catch (error) {
     res.status(500).send();
   }
 });
 // HTTP GET :4000/user
-router.get("/:id", authMiddleware, async (req, res) => {
-  const id = req.user.id;
+router.get("/:id", async (req, res) => {
+  const { id } = req.params;
   try {
     const user = await User.findByPk(id, {
       include: [
         {
           model: Gallery,
         },
+        { model: Photo },
       ],
     });
     console.log(user);
-    res.send(user);
+    res.status(200).json(user);
   } catch (e) {
     return res.status(500).json({ error: e.message });
   }

@@ -22,7 +22,7 @@ module.exports = {
         type: Sequelize.TEXT,
         defaultValue: `Date taken: ${new Date()}`,
       },
-      price: { type: Sequelize.INTEGER, allowNull: false, defaultValue: 0 },
+      price: { type: Sequelize.INTEGER, allowNull: false, defaultValue: 5 },
       publicId: {
         type: Sequelize.STRING,
       },
